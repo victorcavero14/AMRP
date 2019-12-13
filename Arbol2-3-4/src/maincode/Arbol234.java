@@ -10,25 +10,27 @@
 package maincode;
 import nodos.NodoDos;
 import nodos.NodoTres;
+import nodos.TiposNodos;
+
+import java.util.Scanner;
+
+import nodos.Nodo;
 import nodos.NodoCuatro;
 
 public class Arbol234 {
 	
-	public NodoDos _raiz; //mal! necesito crear un NODO grande que englobe las otras 3 clases.
-							//porque si no no podria acceder a una variable nodotres en este caso a su seg valor.
-	public int _tam; //no necesario ??
+	public Nodo _raiz; 
 	
 	public Arbol234 ()
 	{
 		_raiz = null;
-		_tam = 0;
 	}
 	
 	//Busqueda:
 	
-	public buscar(int valor)
+	public Nodo buscar(int valor)
 	{
-		
+		return null;
 	}
 	
 	//Insertar y borrar hacen uso de la busqueda
@@ -44,20 +46,50 @@ public class Arbol234 {
 	
 	public void insertar(int valor)
 	{
+		if(_raiz == null)
+		{
+			_raiz = new NodoDos(valor);
+		}
+		else
+		{
+			if(_raiz.get_tipo() == TiposNodos.NODODOS)
+			{
+				_raiz = new NodoTres(_raiz.get_v1(), valor);
+			}
+			else if(_raiz.get_tipo() == TiposNodos.NODOTRES)
+			{
+				_raiz = new NodoCuatro(_raiz.get_v1(), _raiz.get_v2(), valor);
+			}
+		}
+		
 		
 	}
 	
 	
-	
+	@Override
+	public String toString() {
+		return "Arbol234 " + _raiz.toString();
+	}
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
-		NodoTres nt = new NodoTres(1,2);
-		NodoDos nd = nt;
+		Arbol234 arbol = new Arbol234();
+
+		while(true)
+		{
+		String entrada = "";
+		Scanner sc = new Scanner(System.in);
 		
-		System.out.println(nd.get_valor2());
+		System.out.println("Valor a insertar: ");
+		entrada = sc.nextLine();
+		
+		arbol.insertar(Integer.parseInt(entrada)); //try catch numberFormatException
+		
+		System.out.println(arbol.toString());
+		
 		//instaceof para tomar decisiones en los metodos.
 		//if (nt instanceof NodoTres) System.out.println(nt.toString());
+		}
 		
 	}
 
