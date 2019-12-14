@@ -5,13 +5,13 @@ public abstract class Nodo {
 	protected TiposNodos _tipo;
 	
 	protected Nodo _hi; //Hijo izquierdo
-	protected Nodo _ci;
-	protected Nodo _cd;
-	protected Nodo _hd;
+	protected Nodo _ci; //Hijo central izquierdo 
+	protected Nodo _cd; //Hijo central derecho
+	protected Nodo _hd; //Hijo derecho
 	
-	protected int _v1;
-	protected int _v2;
-	protected int _v3;
+	protected int _v1; //valor 1 - Para los nodos dos
+	protected int _v2; //valor 2 - Para los nodos tres
+	protected int _v3; //valor 3 - Para los nodos cuatro
 
 	public TiposNodos get_tipo() {
 		return _tipo;

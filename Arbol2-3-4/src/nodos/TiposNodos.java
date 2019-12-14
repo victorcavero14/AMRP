@@ -1,6 +1,6 @@
 package nodos;
 
-public enum TiposNodos
+public enum TiposNodos 
 {
-	 NODODOS , NODOTRES , NODOCUATRO
+	 NODODOS , NODOTRES , NODOCUATRO 
 }

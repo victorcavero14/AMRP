@@ -1,8 +1,6 @@
 package nodos;
 
 public class NodoDos extends Nodo{
-
-	
 	
 	public NodoDos(int valor)
 	{
