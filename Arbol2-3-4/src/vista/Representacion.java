@@ -304,10 +304,15 @@ public class Representacion extends javax.swing.JFrame {
 	    root.add(first);
 		
         arbol_recursivo(raiz, first);
-        
+      
         //root.removeAllChildren();
        	
         model.reload();
+        
+        for (int i = 0; i < jTree1.getRowCount(); i++) { //Abre todas las ramas para poder ver el arbol al completo
+            jTree1.expandRow(i);
+        }
+        
     }
 
 }

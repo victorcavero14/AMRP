@@ -8,13 +8,9 @@
  */
 
 package maincode;
-import nodos.NodoDos;
-import nodos.NodoTres;
 import nodos.TiposNodos;
 import vista.Representacion;
-
 import nodos.Nodo;
-import nodos.NodoCuatro;
 
 public class Arbol234 {
 	
@@ -28,50 +24,48 @@ public class Arbol234 {
 	
 	//Busqueda:
 	
-	public Nodo buscar(int valor) //Null si no lo encuentra
+	public Nodo buscar(int valor) //Null si no lo encuentra y el nodo donde esta en caso de que si lo encuentre
 	{
 		Nodo buscar_i = _raiz;
-		Nodo encontrado = null;
+		boolean existe = false;
 		
-		while(buscar_i != null && encontrado != buscar_i)
+		while(buscar_i != null && !existe)
 		{
-			if(buscar_i.get_tipo() == TiposNodos.NODODOS)
+			if(buscar_i.get_v1() == valor) 
 			{
-				if(buscar_i.get_v1() == valor) encontrado = buscar_i;
-				else
-				{
-					if(valor > buscar_i.get_v1()) buscar_i = buscar_i.get_hd();
-					else buscar_i = buscar_i.get_hi();
-				}
+				existe = true;
 			}
-			else if(buscar_i.get_tipo() == TiposNodos.NODOTRES)
+			else if(buscar_i.get_tipo() == TiposNodos.NODODOS )
 			{
-				if(buscar_i.get_v1() == valor) encontrado = buscar_i;
-				else if (buscar_i.get_v2() == valor) encontrado = buscar_i;
-				else
+				if(valor > buscar_i.get_v1()) buscar_i = buscar_i.get_hd();
+				else buscar_i = buscar_i.get_hi();
+			}
+			else
+			{
+				if(buscar_i.get_v2() == valor) existe = true;
+				
+				else if(buscar_i.get_tipo() == TiposNodos.NODOTRES)
 				{
 					if(valor > buscar_i.get_v2()) buscar_i = buscar_i.get_hd();
 					else if (valor < buscar_i.get_v1()) buscar_i = buscar_i.get_hi();
 					else if ((valor > buscar_i.get_v1()) && (valor < buscar_i.get_v2())) buscar_i = buscar_i.get_ci(); 
 				}
-			}
-			else if(buscar_i.get_tipo() == TiposNodos.NODOCUATRO)
-			{
-				if(buscar_i.get_v1() == valor) encontrado = buscar_i;
-				else if (buscar_i.get_v2() == valor) encontrado = buscar_i;
-				else if (buscar_i.get_v3() == valor) encontrado = buscar_i;
 				else
 				{
-					if(valor > buscar_i.get_v3()) buscar_i = buscar_i.get_hd();
-					else if (valor < buscar_i.get_v1()) buscar_i = buscar_i.get_hi();
-					else if ((valor > buscar_i.get_v2()) && (valor < buscar_i.get_v3())) buscar_i = buscar_i.get_cd(); 
-					else if ((valor > buscar_i.get_v1()) && (valor < buscar_i.get_v2())) buscar_i = buscar_i.get_ci(); 
-
+					if(buscar_i.get_v3() == valor) existe = true;
+					else
+					{
+						if(valor > buscar_i.get_v3()) buscar_i = buscar_i.get_hd();
+						else if (valor < buscar_i.get_v1()) buscar_i = buscar_i.get_hi();
+						else if ((valor > buscar_i.get_v2()) && (valor < buscar_i.get_v3())) buscar_i = buscar_i.get_cd(); 
+						else if ((valor > buscar_i.get_v1()) && (valor < buscar_i.get_v2())) buscar_i = buscar_i.get_ci(); 
+					}
 				}
 			}
+				
 		}
 		
-		return encontrado; 
+		return buscar_i; 
 	}
 	
 	//Insertar y borrar hacen uso de la busqueda
@@ -87,28 +81,184 @@ public class Arbol234 {
 	
 	public void insertar(int valor) //utilizamos el buscar para comprobar si existe el valor a insertar
 	{
-		if(buscar(valor) == null) //El valor a insertar no se encuentra en el arbol
+		
+		Nodo buscar_i = _raiz;
+		Nodo ultimo = _raiz;
+		boolean existe = false;
+		
+		while(buscar_i != null && !existe) //Muy parecido al buscar pero en este caso nos quedamos con el ultimo nodo
 		{
-			if(_raiz == null)
+			ultimo = buscar_i;
+			
+			if(buscar_i.get_v1() == valor) 
 			{
-				_raiz = new NodoDos(valor);
+				existe = true;
+			}
+			else if(buscar_i.get_tipo() == TiposNodos.NODODOS )
+			{
+				if(valor > buscar_i.get_v1()) buscar_i = buscar_i.get_hd();
+				else buscar_i = buscar_i.get_hi();
 			}
 			else
 			{
-				if(_raiz.get_tipo() == TiposNodos.NODODOS)
+				if(buscar_i.get_v2() == valor) existe = true;
+				else if(buscar_i.get_tipo() == TiposNodos.NODOTRES)
 				{
-					if(valor > _raiz.get_v1()) _raiz = new NodoTres(_raiz.get_v1(), valor);
-					else  _raiz = new NodoTres(valor, _raiz.get_v1());
+					if(valor > buscar_i.get_v2()) buscar_i = buscar_i.get_hd();
+					else if (valor < buscar_i.get_v1()) buscar_i = buscar_i.get_hi();
+					else if ((valor > buscar_i.get_v1()) && (valor < buscar_i.get_v2())) buscar_i = buscar_i.get_ci(); 
 				}
-				else if(_raiz.get_tipo() == TiposNodos.NODOTRES)
+				else
 				{
-					if(valor > _raiz.get_v2()) _raiz = new NodoCuatro(_raiz.get_v1(), _raiz.get_v2(), valor);
-					else if (valor < _raiz.get_v1()) _raiz = new NodoCuatro(valor, _raiz.get_v1(), _raiz.get_v2());
-					else _raiz = new NodoCuatro(_raiz.get_v1(), valor, _raiz.get_v2());
+					if(buscar_i.get_v3() == valor) existe = true;
+					else
+					{
+						if(valor > buscar_i.get_v3()) buscar_i = buscar_i.get_hd();
+						else if (valor < buscar_i.get_v1()) buscar_i = buscar_i.get_hi();
+						else if ((valor > buscar_i.get_v2()) && (valor < buscar_i.get_v3())) buscar_i = buscar_i.get_cd(); 
+						else if ((valor > buscar_i.get_v1()) && (valor < buscar_i.get_v2())) buscar_i = buscar_i.get_ci(); 
+					}
 				}
 			}
 		}
+		
+		if(!existe)
+		{
+			if(ultimo != null) //El ultimo solo es null cuando la raiz lo es
+			{
+				if(ultimo.get_tipo() != TiposNodos.NODOCUATRO) inserta_valor(ultimo, valor);
+				else inserta_auxiliar(ultimo, valor);
+			}
+			else _raiz = new Nodo(valor);
+		}
+		
+	}
 	
+	private void inserta_valor(Nodo i, int valor)
+	{
+		if(i.get_tipo() == TiposNodos.NODODOS)
+		{
+			i.set_tipo(TiposNodos.NODOTRES);
+			if(valor > i.get_v1()) i.set_v2(valor);
+			else
+			{
+				i.set_v2(i.get_v1());
+				i.set_v1(valor);
+			}
+		}
+		else if(i.get_tipo() == TiposNodos.NODOTRES)
+		{
+			i.set_tipo(TiposNodos.NODOCUATRO);
+				
+			if(valor > i.get_v2())
+			{
+				i.set_v3(valor);
+			}
+			else if (valor < i.get_v1()) 
+			{
+				i.set_v3(i.get_v2());
+				i.set_v2(i.get_v1());
+				i.set_v1(valor);
+			}
+			else 
+			{
+				i.set_v3(i.get_v2());
+				i.set_v2(valor);
+			}
+		}
+	}
+	
+	private void inserta_auxiliar(Nodo i, int valor)
+	{
+		if(_raiz.get_tipo() == TiposNodos.NODOCUATRO)
+		{
+			Nodo ndos1,ndos2,ndos3;
+				
+			ndos3 = new Nodo(_raiz.get_v1()); 
+			ndos2 = new Nodo(_raiz.get_v3());
+			ndos1 = new Nodo(_raiz.get_v2());
+				
+			_raiz = ndos1;
+			_raiz.set_hi(ndos3);
+			_raiz.set_hd(ndos2);
+				
+			insertar(valor);
+			
+		}
+		else inserta_recursiva_auxiliar(valor);
+	}
+	
+	private void inserta_recursiva_auxiliar(int valor) //Se cumple que la raiz es NodoDos o NodoTres y que es distinta de Null
+	{
+		Nodo ultimo = _raiz, i = _raiz;
+		Nodo hijoiz = i.get_hi(), central = i.get_ci(), hijodr = i.get_hd();
+		
+		while(i != null)
+		{
+			ultimo = i;
+			
+			if(i.get_tipo() == TiposNodos.NODODOS)
+			{
+				if(valor > i.get_v1()) i = hijodr;
+				else i = hijoiz;
+				
+				if(i != null)
+				{
+				
+					if((hijoiz.get_tipo() == TiposNodos.NODOCUATRO) && i == hijoiz )
+					{
+					
+					}
+					else if((hijodr.get_tipo() == TiposNodos.NODOCUATRO) && (i == hijodr))
+					{
+						inserta_valor(ultimo,hijodr.get_v2());
+						//Diapositiva splitting a 4 node below a 2 node (Right)
+					
+						int valoraux = hijodr.get_v1();
+						Nodo aux = new Nodo(valoraux);
+					
+						hijodr.set_tipo(TiposNodos.NODODOS);
+						hijodr.set_v1(hijodr.get_v3());
+						aux.set_hi(hijodr.get_hi());
+						aux.set_hd(hijodr.get_ci());
+						hijodr.set_hi(hijodr.get_cd());
+		
+						ultimo.set_ci(aux);
+					}
+				}
+			}
+			else //obligatoriamente sera NODOTRES
+			{
+				if(valor > i.get_v2()) i = hijodr;
+				else if (valor < i.get_v1()) i = hijoiz;
+				else if ((valor > i.get_v1()) && (valor < i.get_v2())) i = central; 
+				
+				if(i != null)
+				{
+					if((hijoiz.get_tipo() == TiposNodos.NODOCUATRO) && (i == hijoiz))
+					{
+						
+					}
+					else if((central.get_tipo() == TiposNodos.NODOCUATRO)  && (i == central))
+					{
+						
+					}
+					else if((hijodr.get_tipo() == TiposNodos.NODOCUATRO) && (i == hijodr))
+					{
+						
+					}
+				}
+			}
+			
+			if(i != null)
+			{
+				hijoiz = i.get_hi();
+				central = i.get_ci();
+				hijodr = i.get_hd();
+			}
+		}
+		
+		inserta_valor(ultimo, valor);
 	}
 	
 	public Nodo get_raiz() {
