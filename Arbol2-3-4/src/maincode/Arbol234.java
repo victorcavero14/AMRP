@@ -77,9 +77,20 @@ public class Arbol234 {
 	}
 	
 	
-	//Insertado:
+	/*
+	 * INSERTAR:
+	 * 
+	 * He realizado el insertado en dos pasadas(top-down) por la rama donde debería ser insertado el elemento.
+	 * 
+	 * En la primera bajada por la rama correspondiente de la inserción comprobamos de que tipo es el último nodo
+	 * donde va a ser insertado. Si es NODODOS o NODOTRES se inserta directamente, en caso de ser un NODOCUATRO sería
+	 * nesaría otro pasada desde arriba hasta abajo de la rama descomponiendo todos los NODOCUATRO.
+	 * 
+	 * 
+	 * 
+	 */
 	
-	public void insertar(int valor) //utilizamos el buscar para comprobar si existe el valor a insertar
+	public void insertar(int valor)
 	{
 		
 		Nodo buscar_i = _raiz;
@@ -172,15 +183,22 @@ public class Arbol234 {
 	{
 		if(_raiz.get_tipo() == TiposNodos.NODOCUATRO)
 		{
-			Nodo ndos1,ndos2,ndos3;
+			Nodo nizq, nder;
 				
-			ndos3 = new Nodo(_raiz.get_v1()); 
-			ndos2 = new Nodo(_raiz.get_v3());
-			ndos1 = new Nodo(_raiz.get_v2());
-				
-			_raiz = ndos1;
-			_raiz.set_hi(ndos3);
-			_raiz.set_hd(ndos2);
+			nizq = new Nodo(_raiz.get_v1()); 
+			nder = new Nodo(_raiz.get_v3());
+			
+			nizq.set_hi(_raiz.get_hi());
+			nizq.set_hd(_raiz.get_ci());
+			
+			nder.set_hi(_raiz.get_cd());
+			nder.set_hd(_raiz.get_hd());
+			
+			_raiz.set_v1(_raiz.get_v2());
+			_raiz.set_tipo(TiposNodos.NODODOS);
+			
+			_raiz.set_hi(nizq);
+			_raiz.set_hd(nder);
 				
 			insertar(valor);
 			
@@ -207,7 +225,17 @@ public class Arbol234 {
 				
 					if((hijoiz.get_tipo() == TiposNodos.NODOCUATRO) && i == hijoiz )
 					{
+						inserta_valor(ultimo,hijoiz.get_v2());
+						
+						int valoraux = hijoiz.get_v3();
+						Nodo aux = new Nodo(valoraux); // se pone por defecto el tipo NODODOS
 					
+						hijoiz.set_tipo(TiposNodos.NODODOS);
+						aux.set_hi(hijoiz.get_cd());
+						aux.set_hd(hijoiz.get_hd());
+						hijoiz.set_hd(hijoiz.get_ci());
+		
+						ultimo.set_ci(aux);
 					}
 					else if((hijodr.get_tipo() == TiposNodos.NODOCUATRO) && (i == hijodr))
 					{
@@ -215,7 +243,7 @@ public class Arbol234 {
 						//Diapositiva splitting a 4 node below a 2 node (Right)
 					
 						int valoraux = hijodr.get_v1();
-						Nodo aux = new Nodo(valoraux);
+						Nodo aux = new Nodo(valoraux); // se pone por defecto el tipo NODODOS
 					
 						hijodr.set_tipo(TiposNodos.NODODOS);
 						hijodr.set_v1(hijodr.get_v3());
@@ -237,15 +265,48 @@ public class Arbol234 {
 				{
 					if((hijoiz.get_tipo() == TiposNodos.NODOCUATRO) && (i == hijoiz))
 					{
+						inserta_valor(ultimo,hijoiz.get_v2());
 						
+						int valoraux = hijoiz.get_v3();
+						Nodo aux = new Nodo(valoraux); // se pone por defecto el tipo NODODOS
+					
+						hijoiz.set_tipo(TiposNodos.NODODOS);
+						aux.set_hi(hijoiz.get_cd());
+						aux.set_hd(hijoiz.get_hd());
+						hijoiz.set_hd(hijoiz.get_ci());
+						
+						ultimo.set_cd(ultimo.get_ci());
+						ultimo.set_ci(aux);
 					}
 					else if((central.get_tipo() == TiposNodos.NODOCUATRO)  && (i == central))
 					{
+						inserta_valor(ultimo,central.get_v2());
 						
+						int valoraux = hijoiz.get_v3();
+						Nodo aux = new Nodo(valoraux); // se pone por defecto el tipo NODODOS
+					
+						central.set_tipo(TiposNodos.NODODOS);
+						aux.set_hi(central.get_cd());
+						aux.set_hd(central.get_hd());
+						central.set_hd(central.get_ci());
+		
+						ultimo.set_cd(aux);
 					}
 					else if((hijodr.get_tipo() == TiposNodos.NODOCUATRO) && (i == hijodr))
 					{
-						
+						inserta_valor(ultimo,hijodr.get_v2());
+						//Diapositiva splitting a 4 node below a 3 node (Right)
+					
+						int valoraux = hijodr.get_v1();
+						Nodo aux = new Nodo(valoraux); // se pone por defecto el tipo NODODOS
+					
+						hijodr.set_tipo(TiposNodos.NODODOS);
+						hijodr.set_v1(hijodr.get_v3());
+						aux.set_hi(hijodr.get_hi());
+						aux.set_hd(hijodr.get_ci());
+						hijodr.set_hi(hijodr.get_cd());
+		
+						ultimo.set_cd(aux);
 					}
 				}
 			}
@@ -258,7 +319,8 @@ public class Arbol234 {
 			}
 		}
 		
-		inserta_valor(ultimo, valor);
+		inserta_valor(ultimo, valor); //insertamos el valor en el nodo final donde deberia estar una
+		// vez deshechos los nodos-4
 	}
 	
 	public Nodo get_raiz() {

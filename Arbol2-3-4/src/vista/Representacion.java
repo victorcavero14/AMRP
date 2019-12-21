@@ -8,6 +8,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import maincode.Arbol234;
 import nodos.Nodo;
+import nodos.TiposNodos;
 
 /**
  *
@@ -52,7 +53,7 @@ public class Representacion extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
   
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Representación de un árbol 2-3-4");
+        setTitle("Representaciï¿½n de un ï¿½rbol 2-3-4");
         setResizable(false);
 
 
@@ -215,7 +216,7 @@ public class Representacion extends javax.swing.JFrame {
     		if(_arbol.buscar(Integer.parseInt(textField1.getText())) != null)
         	{
         		JOptionPane.showMessageDialog(jf,
-        			    "¡ Hemos encontrado el valor ! ");
+        			    "ï¿½ Hemos encontrado el valor ! ");
         	}
         	else 
         	{
@@ -267,26 +268,25 @@ public class Representacion extends javax.swing.JFrame {
     			root.add(dn);
     			arbol_recursivo(hi, dn);
         	}
+        	if(ci != null && ((arbol.get_tipo() == TiposNodos.NODOTRES) || (arbol.get_tipo() == TiposNodos.NODOCUATRO))) 
+            {
+                DefaultMutableTreeNode dn = new DefaultMutableTreeNode("Centro Iz: " + arbol.get_ci().toString());
+            	root.add(dn);
+            	arbol_recursivo(ci, dn);
+            }
+            if(cd != null && (arbol.get_tipo() == TiposNodos.NODOCUATRO)) 
+            {    			
+                DefaultMutableTreeNode dn = new DefaultMutableTreeNode("Centro Drch: " + arbol.get_cd().toString());
+                root.add(dn);
+                arbol_recursivo(cd, dn);
+            }
         	if(hd != null) 
         	{    			
         		DefaultMutableTreeNode dn = new DefaultMutableTreeNode("Hijo Drch: " + arbol.get_hd().toString());
         		root.add(dn);
         		arbol_recursivo(hd, dn);
         	}
-        	if(ci != null) 
-        	{
-        		DefaultMutableTreeNode dn = new DefaultMutableTreeNode("Centro Iz: " + arbol.get_ci().toString());
-    			root.add(dn);
-    			arbol_recursivo(ci, dn);
-        	}
-        	if(cd != null) 
-        	{    			
-        		DefaultMutableTreeNode dn = new DefaultMutableTreeNode("Centro Drch: " + arbol.get_cd().toString());
-        		root.add(dn);
-        		arbol_recursivo(cd, dn);
-        	}
         }
-    	
     }
     
     

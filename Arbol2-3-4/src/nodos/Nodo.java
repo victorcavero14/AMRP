@@ -89,7 +89,7 @@ public class Nodo {
 		
 		if(_tipo == TiposNodos.NODODOS) sb.append("NodoDos ( " + _v1 + " )");
 		else if (_tipo == TiposNodos.NODOTRES) sb.append("NodoTres ( " + _v1 + " , " + _v2 +  " )");
-		else sb.append("NodoCuatro ( " + _v1 + " , " + _v2 + " , " + _v3 + " )");
+		else if(_tipo == TiposNodos.NODOCUATRO) sb.append("NodoCuatro ( " + _v1 + " , " + _v2 + " , " + _v3 + " )");
 		
 		return sb.toString();
 	}
