@@ -293,13 +293,14 @@ public class Representacion extends javax.swing.JFrame {
     private void representa_arbol()
     {
     	Nodo raiz = _arbol.get_raiz();
-    	
-    	if (raiz == null) { return; }
-    	
+    	String sraiz = "";
+    	    	
         DefaultTreeModel model = (DefaultTreeModel) jTree1.getModel();
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
         root.removeAllChildren();
-        DefaultMutableTreeNode first = new DefaultMutableTreeNode(raiz.toString());
+        if(raiz != null) sraiz = raiz.toString();
+        	
+        DefaultMutableTreeNode first = new DefaultMutableTreeNode(sraiz);
         
 	    root.add(first);
 		

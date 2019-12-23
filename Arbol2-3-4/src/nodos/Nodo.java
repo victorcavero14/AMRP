@@ -82,6 +82,22 @@ public class Nodo {
 		return ((_hi == null) && (_hd == null) && (_ci == null) && (_cd == null));
 	}
 	
+	public boolean existe_valor(int valor)
+	{
+		if(_tipo == TiposNodos.NODODOS)
+		{
+			return (_v1 == valor);
+		}
+		else if(_tipo == TiposNodos.NODOTRES)
+		{
+			return (_v1 == valor) || (_v2 == valor);
+		}
+		else
+		{
+			return (_v1 == valor) || (_v2 == valor) || (_v3 == valor);
+		}
+	}
+	
 	@Override
 	public String toString() {
 		
