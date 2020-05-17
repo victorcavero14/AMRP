@@ -1,4 +1,7 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 # AMRP
+
 Algorithm methods to resolve problems
 
 This is a subject of the computer science degree of UCM.
